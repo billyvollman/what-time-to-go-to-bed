@@ -3,7 +3,7 @@
 ## About this app
 
 A web app that will calculate what time someone needs to go to bed based on the parameters they enter in.
-* App will allow users to input the follow
+* App will allow users to input the following:
     - How many hours of sleep user wants to get tonight
     - What activities they will perform the next morning.  For example got to gym, walk dog, make breakfast, etc
     - Users will also be asked how much time each activity will take them to complete
