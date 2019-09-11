@@ -21,7 +21,15 @@ class MapContainer extends React.Component {
     activitiesTime: 0,
     visibleStartLocation: '',
     visibleFinalDestination: '',
-    startAndEndDesFormat: 'start-and-end-des-hidden'
+    displayClassFormat: 'hidden-class',
+    amountOfSleepWanted: 0,
+    sleepHrs: 0,
+    sleepMins: 0,
+    hideAndDisplaySleepAmount: 'hidden-class',
+    finalDestinationHrs: 0,
+    finalDestinationMins: 0,
+    whatTimeYouNeedToBeSomewhere: 0,
+    hideAndDisplayFinalDestTime: 'hidden-class'
   }
 
   handleSubmit = e => {
@@ -138,23 +146,80 @@ class MapContainer extends React.Component {
 
   handleAddTravelDestination = () => {
     console.log('handle Add Travel Destination')
-    const {startLocation, finalDestination, startAndEndDesFormat} = this.state
+    const {startLocation, finalDestination} = this.state
     this.setState({
       visibleStartLocation: startLocation,
       visibleFinalDestination: finalDestination,
-      startAndEndDesFormat: 'start-and-end-des-visible'
+      displayClassFormat: 'visible-class'
     })
   }
 
+  handleSleepHrsChange = e => {
+    console.log(e.target.value)
+    let sleepHrsToNumber = Number(e.target.value)
+    this.setState({
+      sleepHrs: sleepHrsToNumber
+    })
+  }
+
+  handleSleepMinsChange = e => {
+    console.log(e.target.value)
+    let sleepMinsToNumber = Number(e.target.value)
+    this.setState({
+      sleepMins: sleepMinsToNumber
+    })
+  }
+
+  handleAmountOfSleep = () => {
+    console.log('amount of sleep button working')
+    const {sleepHrs, sleepMins} = this.state
+    let hrsAndMinsCombined = (sleepHrs * 60) + sleepMins
+    console.log(hrsAndMinsCombined)
+    this.setState({
+      amountOfSleepWanted: hrsAndMinsCombined,
+      hideAndDisplaySleepAmount: 'visible-class'
+    })
+  }
+
+  handleFinalDestinationHrsChange = e => {
+    console.log(e.target.value)
+    let finalDestinationHrsToNumber = Number(e.target.value)
+    this.setState({
+      finalDestinationHrs: finalDestinationHrsToNumber
+    })
+  }
+
+  handleFinalDestinationMinsChange = e => {
+    console.log(e.target.value)
+    let finalDestinationMinsToNumber = Number(e.target.value)
+    this.setState({
+      finalDestinationMins: finalDestinationMinsToNumber
+    })
+  }
+
+  handleArrivalTime = () => {
+    console.log('arrival time button working')
+    const {finalDestinationHrs, finalDestinationMins} = this.state
+    let finalDestHrsAndMinsCombined = (finalDestinationHrs * 60) + finalDestinationMins
+    console.log(finalDestHrsAndMinsCombined)
+    this.setState({
+      whatTimeYouNeedToBeSomewhere: finalDestHrsAndMinsCombined,
+      hideAndDisplayFinalDestTime: 'visible-class'
+    })
+  }
 
   render() {
-    const { activities, startAndEndDesFormat } = this.state
+    const { activities, displayClassFormat, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime } = this.state
 
     return (
       <div className="App">
         <h1>What time to go to Bed?</h1>
-        <div className={startAndEndDesFormat}>Your start location: {this.state.visibleStartLocation}</div>
-        <div className={startAndEndDesFormat}>Your final destination: {this.state.visibleFinalDestination}</div>
+        <div className={displayClassFormat}>Your start location: {this.state.visibleStartLocation}</div>
+        <div className={displayClassFormat}>Your final destination: {this.state.visibleFinalDestination}</div>
+
+        <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
+
+        <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {finalDestinationHrs}:{finalDestinationMins} AM </div>
         
           { activities.map(activity => (
             <Activities data={activity} key={activity.name} />
@@ -162,14 +227,14 @@ class MapContainer extends React.Component {
           }
           <hr/>
           <div>How much sleep do you want tonight?</div>
-          <div>hours<input type="text"/></div>
-          <div>minutes<input type="text"/></div>
-          <button>add amount of sleep</button>
+          <div>hours<input onChange={this.handleSleepHrsChange} min="0" type="number"/></div>
+          <div>minutes<input onChange={this.handleSleepMinsChange} min="0" type="number"/></div>
+          <button onClick={this.handleAmountOfSleep}>add amount of sleep</button>
           <hr/>
 
           <div>What time do you need to be at your final destination?</div>
-          <div>hours<input type="text"/> : minutes<input type="text"/> AM</div>
-          <button>add time</button>
+          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/> AM</div>
+          <button onClick={this.handleArrivalTime}>add time</button>
           <hr/>
 
           <div>Your starting location</div>
