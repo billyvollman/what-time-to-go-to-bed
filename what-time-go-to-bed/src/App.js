@@ -18,10 +18,10 @@ class MapContainer extends React.Component {
     travelTime: 0,
     activities: [
     ],
-    activitiesTime: 0,
+    
     visibleStartLocation: '',
     visibleFinalDestination: '',
-    displayClassFormat: 'hidden-class',
+    hideAndDisplayStartAndEndLocation: 'hidden-class',
     amountOfSleepWanted: 0,
     sleepHrs: 0,
     sleepMins: 0,
@@ -29,40 +29,44 @@ class MapContainer extends React.Component {
     finalDestinationHrs: 0,
     finalDestinationMins: 0,
     whatTimeYouNeedToBeSomewhere: 0,
-    hideAndDisplayFinalDestTime: 'hidden-class'
+    hideAndDisplayFinalDestTime: 'hidden-class',
+    timeForBed: ''
   }
 
-  handleSubmit = e => {
-    e.preventDefault()
-    const {startLocation} = this.state
-    const {finalDestination} = this.state
+  handleAddTravelDestination = () => {
+    console.log('handle Add Travel Destination')
+    const {startLocation, finalDestination} = this.state
+
     console.log(startLocation)
     console.log(finalDestination)
     const { google } = this.props
     const service = new google.maps.DistanceMatrixService()
-      service.getDistanceMatrix(
-        {
-          origins: [startLocation],
-          destinations: [finalDestination],
-          travelMode: 'DRIVING'
-        },
-        (response, status) => {
-          console.log('response', response)
-          console.log('status', status)
-          // debugger
-          if (response.rows[0].elements[0].duration.text.split(' ').length > 2 ) {
-            var travelDuration = (Number(response.rows[0].elements[0].duration.text.split(' ')[0]) * 60) + Number(response.rows[0].elements[0].duration.text.split(' ')[2])
-          } else if (response.rows[0].elements[0].status !== "ZERO_RESULTS") {
-            travelDuration = Number(response.rows[0].elements[0].duration.text.split(' ')[0])
-          } else {
-            console.log('error')
-          }
-          
-          this.setState({
-            travelTime: travelDuration
-          })
+    service.getDistanceMatrix(
+      {
+        origins: [startLocation],
+        destinations: [finalDestination],
+        travelMode: 'DRIVING'
+      },
+      (response, status) => {
+        // console.log('response', response)
+        // console.log('status', status)
+        // debugger
+        if (response.rows[0].elements[0].duration.text.split(' ').length > 2 ) {
+          var travelDuration = (Number(response.rows[0].elements[0].duration.text.split(' ')[0]) * 60) + Number(response.rows[0].elements[0].duration.text.split(' ')[2])
+        } else if (response.rows[0].elements[0].status !== "ZERO_RESULTS") {
+          travelDuration = Number(response.rows[0].elements[0].duration.text.split(' ')[0])
+        } else {
+          console.log('error')
         }
-      )
+        
+        this.setState({
+          travelTime: travelDuration,
+          visibleStartLocation: startLocation,
+          visibleFinalDestination: finalDestination,
+          hideAndDisplayStartAndEndLocation: 'visible-class'
+        })
+      }
+    )
   }
 
   handleStartLocationChange = e => {
@@ -78,33 +82,22 @@ class MapContainer extends React.Component {
   }
 
   handleNewActivityTitle = e => {
-    console.log(e.target.value)
     this.setState({
       newActivityTitle: e.target.value
     })
   }
 
   handleNewActivityTime = e => {
-    console.log(e.target.value)
     this.setState({
       newActivityTime: e.target.value
     })
   }
 
   addActivityClick = (name, time) => {
-    // debugger
-    // e.preventDefault()
-    // const {newActivityTitle, newActivityTime} = this.state
     var timeToNumber = Number(time)
-
-    // console.log(this.state.activities)
-    // console.log(this.state.activitiesTime)
-
     this.setState({
       activities:  [...this.state.activities, {name: name, time: timeToNumber}],
-      activitiesTime: 10
     })
-    
   }
 
   displayAddActivityInputClick = e => {
@@ -123,39 +116,26 @@ class MapContainer extends React.Component {
   }
 
   handleFigureoutTimeForBed = () => {
-    console.log('Time for bed button working')
-    
-   
-    this.state.activities.forEach(activity => {
-      this.state.activitiesTime = this.state.activitiesTime + activity.time
-    })
-    var activitiesAndTravelTime = this.state.activitiesTime + this.state.travelTime
+    const { activities, travelTime, amountOfSleepWanted, whatTimeYouNeedToBeSomewhere} = this.state
+    var activitiesTotalTime = activities.map( activity => activity.time ).reduce((accum, currentVal) => accum + currentVal, 0)
 
-    var whatTimeYouNeedToBeSomewhere = moment().set({'hour': 0, 'minute': (4 * 60), 'second': 0})
-    whatTimeYouNeedToBeSomewhere.format('LT')
+    var activitiesAndTravelTime = activitiesTotalTime + travelTime
 
-    var wakeUpTime = whatTimeYouNeedToBeSomewhere.subtract(activitiesAndTravelTime, 'minutes')
-    wakeUpTime.format('LT')
+    var timeYouHaveToBeAtAPlace = moment().set({'hour': 0, 'minute': whatTimeYouNeedToBeSomewhere, 'second': 0})
+    console.log(timeYouHaveToBeAtAPlace.format('LT'))
 
-    var amountOfSleepWanted = 8 * 60
+    var wakeUpTime = timeYouHaveToBeAtAPlace.subtract(activitiesAndTravelTime, 'minutes')
+    console.log(wakeUpTime.format('LT'))
 
     var gotToBedTime = wakeUpTime.subtract(amountOfSleepWanted, 'minute')
-
+    this.setState({
+      timeForBed: gotToBedTime.format('LT')
+    })
     console.log(gotToBedTime.format('LT'))
   }
 
-  handleAddTravelDestination = () => {
-    console.log('handle Add Travel Destination')
-    const {startLocation, finalDestination} = this.state
-    this.setState({
-      visibleStartLocation: startLocation,
-      visibleFinalDestination: finalDestination,
-      displayClassFormat: 'visible-class'
-    })
-  }
 
   handleSleepHrsChange = e => {
-    console.log(e.target.value)
     let sleepHrsToNumber = Number(e.target.value)
     this.setState({
       sleepHrs: sleepHrsToNumber
@@ -163,7 +143,6 @@ class MapContainer extends React.Component {
   }
 
   handleSleepMinsChange = e => {
-    console.log(e.target.value)
     let sleepMinsToNumber = Number(e.target.value)
     this.setState({
       sleepMins: sleepMinsToNumber
@@ -171,10 +150,8 @@ class MapContainer extends React.Component {
   }
 
   handleAmountOfSleep = () => {
-    console.log('amount of sleep button working')
     const {sleepHrs, sleepMins} = this.state
     let hrsAndMinsCombined = (sleepHrs * 60) + sleepMins
-    console.log(hrsAndMinsCombined)
     this.setState({
       amountOfSleepWanted: hrsAndMinsCombined,
       hideAndDisplaySleepAmount: 'visible-class'
@@ -182,7 +159,6 @@ class MapContainer extends React.Component {
   }
 
   handleFinalDestinationHrsChange = e => {
-    console.log(e.target.value)
     let finalDestinationHrsToNumber = Number(e.target.value)
     this.setState({
       finalDestinationHrs: finalDestinationHrsToNumber
@@ -190,7 +166,6 @@ class MapContainer extends React.Component {
   }
 
   handleFinalDestinationMinsChange = e => {
-    console.log(e.target.value)
     let finalDestinationMinsToNumber = Number(e.target.value)
     this.setState({
       finalDestinationMins: finalDestinationMinsToNumber
@@ -201,7 +176,6 @@ class MapContainer extends React.Component {
     console.log('arrival time button working')
     const {finalDestinationHrs, finalDestinationMins} = this.state
     let finalDestHrsAndMinsCombined = (finalDestinationHrs * 60) + finalDestinationMins
-    console.log(finalDestHrsAndMinsCombined)
     this.setState({
       whatTimeYouNeedToBeSomewhere: finalDestHrsAndMinsCombined,
       hideAndDisplayFinalDestTime: 'visible-class'
@@ -209,13 +183,14 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const { activities, displayClassFormat, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime, timeForBed } = this.state
 
     return (
       <div className="App">
         <h1>What time to go to Bed?</h1>
-        <div className={displayClassFormat}>Your start location: {this.state.visibleStartLocation}</div>
-        <div className={displayClassFormat}>Your final destination: {this.state.visibleFinalDestination}</div>
+        <h2>{timeForBed}</h2>
+        <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
+        <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
 
         <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
 
@@ -227,14 +202,9 @@ class MapContainer extends React.Component {
           }
           <hr/>
           <div>How much sleep do you want tonight?</div>
-          <div>hours<input onChange={this.handleSleepHrsChange} min="0" type="number"/></div>
-          <div>minutes<input onChange={this.handleSleepMinsChange} min="0" type="number"/></div>
+          <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
+          <div><input onChange={this.handleSleepMinsChange} min="0" type="number"/>minutes</div>
           <button onClick={this.handleAmountOfSleep}>add amount of sleep</button>
-          <hr/>
-
-          <div>What time do you need to be at your final destination?</div>
-          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/> AM</div>
-          <button onClick={this.handleArrivalTime}>add time</button>
           <hr/>
 
           <div>Your starting location</div>
@@ -243,7 +213,11 @@ class MapContainer extends React.Component {
           <input onChange={this.handleFinalDestinationChange} type="text"/>
           <div><button onClick={this.handleAddTravelDestination}>Add travel destination</button></div>
 
-          <hr/>
+          <hr/> 
+          <div>What time do you need to be at your final destination?</div>
+          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/> AM</div>
+          <button onClick={this.handleArrivalTime}>add time</button>
+           
 
         {/* <form onSubmit={this.handleSubmit} action="">
           <div>Time {this.state.travelTime}</div>
