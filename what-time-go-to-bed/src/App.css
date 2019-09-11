@@ -1,4 +1,4 @@
-.App {
+/* .App {
   text-align: center;
 }
 
@@ -30,4 +30,16 @@
   to {
     transform: rotate(360deg);
   }
+} */
+
+.add-activity-hidden {
+  display: none;
+}
+
+.start-and-end-des-hidden {
+  display: none;
+}
+
+.start-and-end-des-visible {
+
 }

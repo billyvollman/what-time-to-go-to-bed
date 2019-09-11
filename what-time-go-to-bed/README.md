@@ -15,4 +15,4 @@ A web app that will calculate what time someone needs to go to bed based on the 
 ## Technology used for app will be
 - React
 - Google Maps
-- Axios
+- moment.js
