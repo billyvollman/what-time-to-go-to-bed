@@ -4,8 +4,23 @@ import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 import './App.css';
 // import axios from 'axios';
 import Activities from './Activities';
-import AddActivities from './AddActivities'
+import AddActivities from './AddActivities';
+import Clock from './Clock';
 import moment from 'moment'
+
+
+// var timeNow = function() {
+//   var hrs = moment().hour()
+//   var mins = moment().minute()
+//   var secs = moment().seconds()
+//   console.log(`${hrs}:${mins}:${secs}`)
+//   var time = `${hrs}:${mins}:${secs}`
+//   currentTime[0] = time
+// }
+
+// setInterval( () => {
+//   timeNow()
+// }, 1000)
 
 class MapContainer extends React.Component {
   state = {
@@ -18,7 +33,6 @@ class MapContainer extends React.Component {
     travelTime: 0,
     activities: [
     ],
-    
     visibleStartLocation: '',
     visibleFinalDestination: '',
     hideAndDisplayStartAndEndLocation: 'hidden-class',
@@ -29,8 +43,10 @@ class MapContainer extends React.Component {
     finalDestinationHrs: 0,
     finalDestinationMins: 0,
     whatTimeYouNeedToBeSomewhere: 0,
+    whatTimeYouNeedToBeSomewhereDisplay: '',
     hideAndDisplayFinalDestTime: 'hidden-class',
-    timeForBed: ''
+    timeForBed: '',
+    currentTime: []
   }
 
   handleAddTravelDestination = () => {
@@ -176,17 +192,23 @@ class MapContainer extends React.Component {
     console.log('arrival time button working')
     const {finalDestinationHrs, finalDestinationMins} = this.state
     let finalDestHrsAndMinsCombined = (finalDestinationHrs * 60) + finalDestinationMins
+
+    var test = moment().set({'hour': finalDestinationHrs, 'minute': finalDestinationMins, 'second': 0})
+    console.log(test.format('LT'))
+
     this.setState({
       whatTimeYouNeedToBeSomewhere: finalDestHrsAndMinsCombined,
-      hideAndDisplayFinalDestTime: 'visible-class'
+      hideAndDisplayFinalDestTime: 'visible-class',
+      whatTimeYouNeedToBeSomewhereDisplay: test.format('LT')
     })
   }
 
   render() {
-    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime, timeForBed } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay } = this.state
 
     return (
       <div className="App">
+        <h1><Clock /></h1>
         <h1>What time to go to Bed?</h1>
         <h2>{timeForBed}</h2>
         <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
@@ -194,7 +216,7 @@ class MapContainer extends React.Component {
 
         <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
 
-        <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {finalDestinationHrs}:{finalDestinationMins} AM </div>
+        <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
         
           { activities.map(activity => (
             <Activities data={activity} key={activity.name} />
@@ -215,7 +237,7 @@ class MapContainer extends React.Component {
 
           <hr/> 
           <div>What time do you need to be at your final destination?</div>
-          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/> AM</div>
+          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/></div>
           <button onClick={this.handleArrivalTime}>add time</button>
            
 
