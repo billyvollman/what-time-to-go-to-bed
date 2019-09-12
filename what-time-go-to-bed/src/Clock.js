@@ -5,6 +5,7 @@ import './Clock.css'
 export default class Clock extends React.Component {
 
     state = {
+        currentDay: moment().format("dd"),
         currentTime: this.timeNow,
         currentHrs: this.timeNow,
         currentMins: this.timeNow,
@@ -53,15 +54,16 @@ export default class Clock extends React.Component {
     }
 
       render() {
-        const { currentTime, currentHrs, currentMins, currentSecs } = this.state
+        const { currentDay, currentTime, currentHrs, currentMins, currentSecs } = this.state
 
         return(
             <section>
                 <h5>{currentTime}</h5>
 
                 <div className="clock-container">
+                    
                 <div className="clock-col">
-                    <p className="clock-day clock-timer">
+                    <p className="clock-day clock-timer"> {currentDay}
                     </p>
                     <p className="clock-label">
                     Day

@@ -1,6 +1,12 @@
 import React from 'react';
 import {Map, InfoWindow, Marker, GoogleApiWrapper} from 'google-maps-react';
 // import logo from './logo.svg';
+// import './skeleton.css';
+// import './normalize.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Button from 'react-bootstrap/Button';
+import InputGroup from 'react-bootstrap/InputGroup';
+import FormControl from 'react-bootstrap/FormControl';
 import './App.css';
 // import axios from 'axios';
 import Activities from './Activities';
@@ -175,6 +181,7 @@ class MapContainer extends React.Component {
   }
 
   handleFinalDestinationHrsChange = e => {
+    console.log(e.target.va)
     let finalDestinationHrsToNumber = Number(e.target.value)
     this.setState({
       finalDestinationHrs: finalDestinationHrsToNumber
@@ -204,58 +211,57 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, finalDestinationHrs, finalDestinationMins, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay } = this.state
 
     return (
       <div className="App">
         <h1><Clock /></h1>
-        <h1>What time to go to Bed?</h1>
-        <h2>{timeForBed}</h2>
-        <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
-        <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
+        <div className="main-interactive-section">
+          <div className="time-for-bed">
+            <h1>What time to go to Bed?</h1>
+            <h2>{timeForBed}</h2>
+            <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
+            <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
 
-        <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
+            <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
 
-        <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
-        
-          { activities.map(activity => (
-            <Activities data={activity} key={activity.name} />
-          ))
-          }
-          <hr/>
-          <div>How much sleep do you want tonight?</div>
-          <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
-          <div><input onChange={this.handleSleepMinsChange} min="0" type="number"/>minutes</div>
-          <button onClick={this.handleAmountOfSleep}>add amount of sleep</button>
-          <hr/>
-
-          <div>Your starting location</div>
-          <input onChange={this.handleStartLocationChange}  type="text"/>
-          <div>Your final destination</div>
-          <input onChange={this.handleFinalDestinationChange} type="text"/>
-          <div><button onClick={this.handleAddTravelDestination}>Add travel destination</button></div>
-
-          <hr/> 
-          <div>What time do you need to be at your final destination?</div>
-          <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes<input onChange={this.handleFinalDestinationMinsChange} type="text"/></div>
-          <button onClick={this.handleArrivalTime}>add time</button>
-           
-
-        {/* <form onSubmit={this.handleSubmit} action="">
-          <div>Time {this.state.travelTime}</div>
-          <div>Your starting location</div>
-          <input onChange={this.handleStartLocationChange} type="text"/>
-          <div>Your final destination</div>
-          <input onChange={this.handleFinalDestinationChange}  type="text"/>
-          <div><button>Calculate</button></div>
-        </form> */}
-
-          <hr/>
-          <div>Will you be doing any activities in the morning?</div>
-          <AddActivities  onAdd={this.addActivityClick} />
+            <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
+            
+              { activities.map(activity => (
+                <Activities data={activity} key={activity.name} />
+              ))
+              }
+          </div>
           
-          <hr/>
-          <button onClick={this.handleFigureoutTimeForBed}>Calculate Time for Bed?</button>
+            <hr/>
+            
+            <div>How much sleep do you want tonight?</div>
+            <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
+            <div><input onChange={this.handleSleepMinsChange} min="0" type="number"/>minutes</div>
+            <button onClick={this.handleAmountOfSleep}>add amount of sleep</button>
+
+            <hr/>
+
+            <div>Your starting location</div>
+            <input onChange={this.handleStartLocationChange}  type="text"/>
+            <div>Your final destination</div>
+            <input onChange={this.handleFinalDestinationChange} type="text"/>
+            <div><button onClick={this.handleAddTravelDestination}>Add travel destination</button></div>
+
+            <hr/> 
+            
+            <div>What time do you need to be at your final destination?</div>
+            <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes <input onChange={this.handleFinalDestinationMinsChange} type="text"/></div>
+            <button onClick={this.handleArrivalTime}>add time</button>
+
+
+            <hr/>
+            <div>Will you be doing any activities in the morning?</div>
+            <AddActivities  onAdd={this.addActivityClick} />
+            
+            <hr/>
+            <button onClick={this.handleFigureoutTimeForBed}>Calculate Time for Bed?</button>
+        </div>
       </div>
       
     );
