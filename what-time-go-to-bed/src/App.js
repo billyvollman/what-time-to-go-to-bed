@@ -14,20 +14,6 @@ import AddActivities from './AddActivities';
 import Clock from './Clock';
 import moment from 'moment'
 
-
-// var timeNow = function() {
-//   var hrs = moment().hour()
-//   var mins = moment().minute()
-//   var secs = moment().seconds()
-//   console.log(`${hrs}:${mins}:${secs}`)
-//   var time = `${hrs}:${mins}:${secs}`
-//   currentTime[0] = time
-// }
-
-// setInterval( () => {
-//   timeNow()
-// }, 1000)
-
 class MapContainer extends React.Component {
   state = {
     // showAddActivities: 'add-activity-hidden',
@@ -52,7 +38,9 @@ class MapContainer extends React.Component {
     whatTimeYouNeedToBeSomewhereDisplay: '',
     hideAndDisplayFinalDestTime: 'hidden-class',
     timeForBed: '',
-    currentTime: []
+    currentTime: [],
+    hideAndDisplaySectionContainer: 'section-container',
+  
   }
 
   handleAddTravelDestination = () => {
@@ -138,7 +126,7 @@ class MapContainer extends React.Component {
   }
 
   handleFigureoutTimeForBed = () => {
-    const { activities, travelTime, amountOfSleepWanted, whatTimeYouNeedToBeSomewhere} = this.state
+    const { activities, travelTime, amountOfSleepWanted, whatTimeYouNeedToBeSomewhere, hideAndDisplaySectionContainer} = this.state
     var activitiesTotalTime = activities.map( activity => activity.time ).reduce((accum, currentVal) => accum + currentVal, 0)
 
     var activitiesAndTravelTime = activitiesTotalTime + travelTime
@@ -151,7 +139,8 @@ class MapContainer extends React.Component {
 
     var gotToBedTime = wakeUpTime.subtract(amountOfSleepWanted, 'minute')
     this.setState({
-      timeForBed: gotToBedTime.format('LT')
+      timeForBed: gotToBedTime.format('LT'),
+      hideAndDisplaySectionContainer: 'hidden-class'
     })
     console.log(gotToBedTime.format('LT'))
   }
@@ -211,7 +200,7 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay, hideAndDisplaySectionContainer } = this.state
 
     return (
       <div className="App">
@@ -236,7 +225,7 @@ class MapContainer extends React.Component {
           </div>
           
             
-          <div className="section-container">
+          <div className={hideAndDisplaySectionContainer}>
             <div className="how-much-sleep-want">
               <div>How much sleep do you want tonight?</div>
               <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
@@ -245,8 +234,9 @@ class MapContainer extends React.Component {
               <Button onClick={this.handleAmountOfSleep}>Add amount of sleep</Button>
           </div>
             
-            <div className="section-container">
+            <div className={hideAndDisplaySectionContainer}>
               <div className="start-end-location">
+                <div>Where do you need to be tomorrow?</div>
                 <div className="start-location">
                   <div>Your starting location</div>
                   <input onChange={this.handleStartLocationChange}  type="text"/>
@@ -261,7 +251,7 @@ class MapContainer extends React.Component {
 
             
 
-            <div className="section-container">
+            <div className={hideAndDisplaySectionContainer}>
               <div className="time-at-final-dest">
                   <div className="time-at-final-dest-title">What time do you need to be at your final destination?</div>
                   <div className="time-at-final-dest-inputs">
@@ -276,7 +266,7 @@ class MapContainer extends React.Component {
 
 
             
-            <div className="section-container">
+            <div className={hideAndDisplaySectionContainer}>
               <div className="add-activity-text">Will you be doing any activities in the morning?</div>
               <AddActivities  onAdd={this.addActivityClick} />
             </div>
