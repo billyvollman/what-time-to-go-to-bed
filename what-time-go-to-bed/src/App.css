@@ -1,11 +1,95 @@
 .main-interactive-section {
-  padding: 30px 60px;
+  padding: 0 60px 30px;
+}
+
+.section-container {
+  border-bottom: 2px solid rgba(0, 0, 0, 0.4);
+  padding: 30px 50px 30px;
+}
+
+.section-container-last {
+  padding: 30px 50px 30px;
 }
 
 .time-for-bed {
   display: flex;
   flex-direction: column;
 }
+
+.time-for-bed h1 {
+  text-align: center;
+}
+
+.how-much-sleep-want {
+  display: flex;
+  flex-direction: column;
+}
+
+.how-much-sleep-want input {
+  margin: 10px 10px 10px 0;
+  width: 10%;
+}
+
+.how-much-sleep-want button {
+  width: 15vw;
+  font-size: 1vw;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited {
+  background-color: #bf8399 !important;
+  /* border-color: #bf8399 !important; */
+}
+
+.start-end-location {
+  
+}
+
+.start-location {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.start-location input {
+  margin-left: 2vw;
+  margin-right: auto;
+}
+
+.final-dest {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
+}
+
+.final-dest input {
+  margin-left: 2.4vw;
+  margin-right: auto;
+}
+
+.time-at-final-dest-title {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.time-at-final-dest-inputs {
+  display: flex;
+  padding-bottom: 10px;
+}
+
+.time-at-final-dest-inputs input {
+  width: 10%;
+}
+
+.time-at-final-dest-inputs span {
+  padding: 0 10px;
+}
+
+.add-activity-text {
+  display: flex;
+  padding: 0 0 10px;
+}
+
+
 
 /*
 .App-logo {

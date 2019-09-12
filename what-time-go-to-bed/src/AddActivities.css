@@ -1,0 +1,17 @@
+.add-activity-section {
+    display: flex;
+    flex-direction: column;
+}
+
+.add-activity-section input {
+    width: 50%;
+    margin-top: 10px;
+}
+
+.add-activity-first-input {
+    margin-bottom: 10px
+}
+
+.add-activity-last-input {
+    margin-bottom: 20px
+}

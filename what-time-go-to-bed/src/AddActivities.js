@@ -1,4 +1,6 @@
 import React from 'react'
+import Button from 'react-bootstrap/Button'
+import './AddActivities.css'
 
 export default class AddActivities extends React.Component {
 
@@ -47,18 +49,18 @@ export default class AddActivities extends React.Component {
 
         if (showAddActivities === true) {
             return (
-                <section>
+                <section className="add-activity-section">
                     <div>Title</div>
-                    <input onChange={this.handleNewActivityTitle}  type="text"/>
+                    <input className="add-activity-first-input" onChange={this.handleNewActivityTitle}  type="text"/>
                     <div>Time (in minutes)</div>
-                    <input onChange={this.handleNewActivityTime} type="number"/>
-                    <div><button onClick={this.handleAdd}>Add Activity</button></div>
+                    <input className="add-activity-last-input" onChange={this.handleNewActivityTime} type="number"/>
+                    <div><Button onClick={this.handleAdd}>Add Activity</Button></div>
                 </section>
             )
         } else {
             return (
                 <section>
-                    <button onClick={this.displayAddActivityInputClick}>Add an activity</button>
+                    <Button onClick={this.displayAddActivityInputClick}>Add an activity</Button>
                 </section>
             )
         }

@@ -58,7 +58,7 @@ export default class Clock extends React.Component {
 
         return(
             <section>
-                <h5>{currentTime}</h5>
+                {/* <h5>{currentTime}</h5> */}
 
                 <div className="clock-container">
                     

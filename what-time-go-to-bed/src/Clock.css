@@ -19,7 +19,7 @@
   
   .clock-container {
     margin-top: 30px;
-    margin-bottom: 30px;
+    margin-bottom: 0;
     background-color: #080808;
     border-radius: 5px;
     padding: 60px 20px;

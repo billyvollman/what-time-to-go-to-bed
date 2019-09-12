@@ -217,50 +217,73 @@ class MapContainer extends React.Component {
       <div className="App">
         <h1><Clock /></h1>
         <div className="main-interactive-section">
-          <div className="time-for-bed">
-            <h1>What time to go to Bed?</h1>
-            <h2>{timeForBed}</h2>
-            <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
-            <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
+          <div className="section-container">
+            <div className="time-for-bed">
+              <h1>What time to go to Bed?</h1>
+              <h2>{timeForBed}</h2>
+              <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
+              <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
 
-            <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
+              <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
 
-            <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
-            
-              { activities.map(activity => (
-                <Activities data={activity} key={activity.name} />
-              ))
-              }
+              <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
+              
+                { activities.map(activity => (
+                  <Activities data={activity} key={activity.name} />
+                ))
+                }
+            </div>
           </div>
           
-            <hr/>
             
-            <div>How much sleep do you want tonight?</div>
-            <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
-            <div><input onChange={this.handleSleepMinsChange} min="0" type="number"/>minutes</div>
-            <button onClick={this.handleAmountOfSleep}>add amount of sleep</button>
-
-            <hr/>
-
-            <div>Your starting location</div>
-            <input onChange={this.handleStartLocationChange}  type="text"/>
-            <div>Your final destination</div>
-            <input onChange={this.handleFinalDestinationChange} type="text"/>
-            <div><button onClick={this.handleAddTravelDestination}>Add travel destination</button></div>
-
-            <hr/> 
+          <div className="section-container">
+            <div className="how-much-sleep-want">
+              <div>How much sleep do you want tonight?</div>
+              <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
+              <div><input onChange={this.handleSleepMinsChange} min="0" type="number"/>minutes</div>
+            </div>
+              <Button onClick={this.handleAmountOfSleep}>Add amount of sleep</Button>
+          </div>
             
-            <div>What time do you need to be at your final destination?</div>
-            <div>hours<input onChange={this.handleFinalDestinationHrsChange} type="text"/> : minutes <input onChange={this.handleFinalDestinationMinsChange} type="text"/></div>
-            <button onClick={this.handleArrivalTime}>add time</button>
+            <div className="section-container">
+              <div className="start-end-location">
+                <div className="start-location">
+                  <div>Your starting location</div>
+                  <input onChange={this.handleStartLocationChange}  type="text"/>
+                </div>
+                <div className='final-dest'>
+                  <div>Your final destination</div>
+                  <input onChange={this.handleFinalDestinationChange} type="text"/>
+                </div>
+                <div><Button onClick={this.handleAddTravelDestination}>Add travel destination</Button></div>
+              </div>
+            </div>
 
-
-            <hr/>
-            <div>Will you be doing any activities in the morning?</div>
-            <AddActivities  onAdd={this.addActivityClick} />
             
-            <hr/>
-            <button onClick={this.handleFigureoutTimeForBed}>Calculate Time for Bed?</button>
+
+            <div className="section-container">
+              <div className="time-at-final-dest">
+                  <div className="time-at-final-dest-title">What time do you need to be at your final destination?</div>
+                  <div className="time-at-final-dest-inputs">
+                    <input onChange={this.handleFinalDestinationHrsChange} type="number"/>
+                      <span>hours</span>
+                    <input onChange={this.handleFinalDestinationMinsChange} type="number"/>
+                      <span>: minutes</span>
+                  </div>
+                  <Button onClick={this.handleArrivalTime}>Add time</Button>
+              </div>
+            </div>
+
+
+            
+            <div className="section-container">
+              <div className="add-activity-text">Will you be doing any activities in the morning?</div>
+              <AddActivities  onAdd={this.addActivityClick} />
+            </div>
+            
+            <div className="section-container-last">
+              <Button onClick={this.handleFigureoutTimeForBed}>Calculate Time for Bed?</Button>
+            </div>
         </div>
       </div>
       
