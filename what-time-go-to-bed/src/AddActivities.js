@@ -43,6 +43,10 @@ export default class AddActivities extends React.Component {
         this.hideForm()
     }
 
+    handleNo = () => {
+        this.props.onNo()
+    }
+
     render() {
 
         const { showAddActivities } = this.state
@@ -60,7 +64,8 @@ export default class AddActivities extends React.Component {
         } else {
             return (
                 <section>
-                    <Button onClick={this.displayAddActivityInputClick}>Add an activity</Button>
+                    <Button onClick={this.displayAddActivityInputClick}>Yes</Button>
+                    <Button onClick={this.handleNo}>No</Button>
                 </section>
             )
         }

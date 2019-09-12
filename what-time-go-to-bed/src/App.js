@@ -40,7 +40,12 @@ class MapContainer extends React.Component {
     timeForBed: '',
     currentTime: [],
     hideAndDisplaySectionContainer: 'section-container',
-  
+    amountSleepSection: 'section-container-last',
+    whereNeedToBeSection: 'hidden-class',
+    timeNeedToBeAtFinalDest: 'hidden-class',
+    activitiesSection: 'hidden-class',
+    moreActivitiesSection: 'hidden-class',
+    calculateBedTimeSection: 'hidden-class'
   }
 
   handleAddTravelDestination = () => {
@@ -73,7 +78,9 @@ class MapContainer extends React.Component {
           travelTime: travelDuration,
           visibleStartLocation: startLocation,
           visibleFinalDestination: finalDestination,
-          hideAndDisplayStartAndEndLocation: 'visible-class'
+          hideAndDisplayStartAndEndLocation: 'visible-class',
+          whereNeedToBeSection: 'hidden-class',
+          timeNeedToBeAtFinalDest: 'section-container-last'
         })
       }
     )
@@ -107,6 +114,17 @@ class MapContainer extends React.Component {
     var timeToNumber = Number(time)
     this.setState({
       activities:  [...this.state.activities, {name: name, time: timeToNumber}],
+      activitiesSection: 'hidden-class',
+      moreActivitiesSection: 'section-container-last'
+    })
+  }
+
+  noActivityClick = () => {
+    console.log('no activity click')
+    this.setState({
+      activitiesSection: 'hidden-class',
+      moreActivitiesSection: 'hidden-class',
+      calculateBedTimeSection: 'section-container-last'
     })
   }
 
@@ -165,7 +183,9 @@ class MapContainer extends React.Component {
     let hrsAndMinsCombined = (sleepHrs * 60) + sleepMins
     this.setState({
       amountOfSleepWanted: hrsAndMinsCombined,
-      hideAndDisplaySleepAmount: 'visible-class'
+      hideAndDisplaySleepAmount: 'visible-class',
+      amountSleepSection: 'hidden-class',
+      whereNeedToBeSection: 'section-container-last'
     })
   }
 
@@ -195,12 +215,14 @@ class MapContainer extends React.Component {
     this.setState({
       whatTimeYouNeedToBeSomewhere: finalDestHrsAndMinsCombined,
       hideAndDisplayFinalDestTime: 'visible-class',
-      whatTimeYouNeedToBeSomewhereDisplay: test.format('LT')
+      whatTimeYouNeedToBeSomewhereDisplay: test.format('LT'),
+      timeNeedToBeAtFinalDest: 'hidden-class',
+      activitiesSection: 'section-container-last'
     })
   }
 
   render() {
-    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay, hideAndDisplaySectionContainer } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay, amountSleepSection, whereNeedToBeSection, timeNeedToBeAtFinalDest, activitiesSection, moreActivitiesSection, calculateBedTimeSection } = this.state
 
     return (
       <div className="App">
@@ -210,10 +232,11 @@ class MapContainer extends React.Component {
             <div className="time-for-bed">
               <h1>What time to go to Bed?</h1>
               <h2>{timeForBed}</h2>
-              <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
-              <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
 
               <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
+
+              <div className={hideAndDisplayStartAndEndLocation}>Your start location: {this.state.visibleStartLocation}</div>
+              <div className={hideAndDisplayStartAndEndLocation}>Your final destination: {this.state.visibleFinalDestination}</div>
 
               <div className={hideAndDisplayFinalDestTime}>Time you need to be somewhere: {whatTimeYouNeedToBeSomewhereDisplay}</div>
               
@@ -225,7 +248,7 @@ class MapContainer extends React.Component {
           </div>
           
             
-          <div className={hideAndDisplaySectionContainer}>
+          <div className={amountSleepSection}>
             <div className="how-much-sleep-want">
               <div>How much sleep do you want tonight?</div>
               <div><input onChange={this.handleSleepHrsChange} min="0" type="number"/>hours</div>
@@ -234,9 +257,9 @@ class MapContainer extends React.Component {
               <Button onClick={this.handleAmountOfSleep}>Add amount of sleep</Button>
           </div>
             
-            <div className={hideAndDisplaySectionContainer}>
+            <div className={whereNeedToBeSection}>
               <div className="start-end-location">
-                <div>Where do you need to be tomorrow?</div>
+              <div>Where do you need to be tomorrow?</div>
                 <div className="start-location">
                   <div>Your starting location</div>
                   <input onChange={this.handleStartLocationChange}  type="text"/>
@@ -250,8 +273,7 @@ class MapContainer extends React.Component {
             </div>
 
             
-
-            <div className={hideAndDisplaySectionContainer}>
+            <div className={timeNeedToBeAtFinalDest}>
               <div className="time-at-final-dest">
                   <div className="time-at-final-dest-title">What time do you need to be at your final destination?</div>
                   <div className="time-at-final-dest-inputs">
@@ -266,12 +288,17 @@ class MapContainer extends React.Component {
 
 
             
-            <div className={hideAndDisplaySectionContainer}>
+            <div className={activitiesSection}>
               <div className="add-activity-text">Will you be doing any activities in the morning?</div>
-              <AddActivities  onAdd={this.addActivityClick} />
+              <AddActivities  onAdd={this.addActivityClick} onNo={this.noActivityClick} />
+            </div>
+
+            <div className={moreActivitiesSection}>
+              <div className="add-activity-text">Will you be doing any other activities in the morning?</div>
+              <AddActivities  onAdd={this.addActivityClick} onNo={this.noActivityClick} />
             </div>
             
-            <div className="section-container-last">
+            <div className={calculateBedTimeSection}>
               <Button onClick={this.handleFigureoutTimeForBed}>Calculate Time for Bed?</Button>
             </div>
         </div>
