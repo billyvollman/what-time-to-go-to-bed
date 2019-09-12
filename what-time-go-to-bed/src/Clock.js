@@ -34,48 +34,11 @@ export default class Clock extends React.Component {
             var hrs = moment().hour()
             var mins = moment().minute()
             var secs = moment().seconds()
-            // debugger
-            if (hrs < 10 && mins < 10 && secs < 10) {
-                var time = `0${hrs}:0${mins}:0${secs}`
-                var timeHrs = `0${hrs}`
-                var timeMins = `0${mins}`
-                var timeSecs = `0${secs}`
-            } else if (hrs < 10 && mins < 10) {
-                var time = `0${hrs}:0${mins}:${secs}`
-                var timeHrs = `0${hrs}`
-                var timeMins = `0${mins}`
-                var timeSecs = `${secs}`
-            } else if (hrs < 10 && secs < 10) {
-                var time = `0${hrs}:${mins}:0${secs}`
-                var timeHrs = `0${hrs}`
-                var timeMins = `${mins}`
-                var timeSecs = `0${secs}`
-            } else if (hrs < 10) {
-                var time = `0${hrs}:${mins}:${secs}`
-                var timeHrs = `0${hrs}`
-                var timeMins = `${mins}`
-                var timeSecs = `${secs}`
-            } else if (mins < 10 && secs < 10 ) {
-                var time = `${hrs}:0${mins}:0${secs}`
-                var timeHrs = `${hrs}`
-                var timeMins = `0${mins}`
-                var timeSecs = `0${secs}`
-            } else if (mins < 10 ) {
-                var time = `${hrs}:0${mins}:${secs}`
-                var timeHrs = `${hrs}`
-                var timeMins = `0${mins}`
-                var timeSecs = `${secs}`
-            } else if (secs < 10 ) {
-                var time = `${hrs}:${mins}:0${secs}`
-                var timeHrs = `${hrs}`
-                var timeMins = `${mins}`
-                var timeSecs = `0${secs}`
-            }else {
-                var time = `${hrs}:${mins}:${secs}`
-                var timeHrs = `${hrs}`
-                var timeMins = `${mins}`
-                var timeSecs = `${secs}`
-            }
+            var time = `${hrs.toString().padStart(2,'0')}:${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`
+            var timeHrs = hrs.toString().padStart(2,'0')
+            var timeMins = mins.toString().padStart(2,'0')
+            var timeSecs = secs.toString().padStart(2,'0')
+            
             this.setState({
                 currentTime: time,
                 currentHrs: timeHrs,
