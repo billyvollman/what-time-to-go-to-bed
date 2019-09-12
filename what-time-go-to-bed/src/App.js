@@ -190,7 +190,6 @@ class MapContainer extends React.Component {
   }
 
   handleFinalDestinationHrsChange = e => {
-    console.log(e.target.va)
     let finalDestinationHrsToNumber = Number(e.target.value)
     this.setState({
       finalDestinationHrs: finalDestinationHrsToNumber
