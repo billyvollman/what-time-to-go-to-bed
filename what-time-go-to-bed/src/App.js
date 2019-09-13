@@ -37,6 +37,7 @@ class MapContainer extends React.Component {
     whatTimeYouNeedToBeSomewhere: 0,
     whatTimeYouNeedToBeSomewhereDisplay: '',
     hideAndDisplayFinalDestTime: 'hidden-class',
+    hideAndDisplayBedTime: 'hidden-class',
     timeForBed: '',
     currentTime: [],
     hideAndDisplaySectionContainer: 'section-container',
@@ -60,13 +61,16 @@ class MapContainer extends React.Component {
       {
         origins: [startLocation],
         destinations: [finalDestination],
-        travelMode: 'DRIVING'
+        travelMode: 'DRIVING',
+        region: 'AU'
       },
       (response, status) => {
         // console.log('response', response)
         // console.log('status', status)
         // debugger
-        if (response.rows[0].elements[0].duration.text.split(' ').length > 2 ) {
+        if (response.rows[0].elements[0].status === "ZERO_RESULTS") {
+          console.log('error')
+        } else if (response.rows[0].elements[0].duration.text.split(' ').length > 2) {
           var travelDuration = (Number(response.rows[0].elements[0].duration.text.split(' ')[0]) * 60) + Number(response.rows[0].elements[0].duration.text.split(' ')[2])
         } else if (response.rows[0].elements[0].status !== "ZERO_RESULTS") {
           travelDuration = Number(response.rows[0].elements[0].duration.text.split(' ')[0])
@@ -158,7 +162,8 @@ class MapContainer extends React.Component {
     var gotToBedTime = wakeUpTime.subtract(amountOfSleepWanted, 'minute')
     this.setState({
       timeForBed: gotToBedTime.format('LT'),
-      hideAndDisplaySectionContainer: 'hidden-class'
+      hideAndDisplaySectionContainer: 'hidden-class',
+      hideAndDisplayBedTime: 'time-need-be-in-bed-time'
     })
     console.log(gotToBedTime.format('LT'))
   }
@@ -221,7 +226,7 @@ class MapContainer extends React.Component {
   }
 
   render() {
-    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay, amountSleepSection, whereNeedToBeSection, timeNeedToBeAtFinalDest, activitiesSection, moreActivitiesSection, calculateBedTimeSection } = this.state
+    const { activities, hideAndDisplayStartAndEndLocation, sleepHrs, sleepMins, hideAndDisplaySleepAmount, hideAndDisplayFinalDestTime, hideAndDisplayBedTime, timeForBed, whatTimeYouNeedToBeSomewhereDisplay, amountSleepSection, whereNeedToBeSection, timeNeedToBeAtFinalDest, activitiesSection, moreActivitiesSection, calculateBedTimeSection } = this.state
 
     return (
       <div className="App">
@@ -230,7 +235,7 @@ class MapContainer extends React.Component {
           <div className="section-container">
             <div className="time-for-bed">
               <h1>What time to go to Bed?</h1>
-              <h2>{timeForBed}</h2>
+              <h2 className={hideAndDisplayBedTime}>You need to go to bed at {timeForBed}</h2>
 
               <div className={hideAndDisplaySleepAmount}>Amount of sleep you want: {sleepHrs} hrs and {sleepMins} mins </div>
 

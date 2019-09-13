@@ -16,6 +16,10 @@
   flex-direction: column;
 }
 
+.time-need-be-in-bed-time {
+  color: white;
+}
+
 .time-for-bed h1 {
   text-align: center;
 }
