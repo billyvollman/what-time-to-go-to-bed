@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/what-time-to-go-to-bed/static/css/main.f9299c2a.chunk.css",
+    "main.css": "/what-time-to-go-to-bed/static/css/main.1a0104d8.chunk.css",
     "main.js": "/what-time-to-go-to-bed/static/js/main.faf5ab55.chunk.js",
     "main.js.map": "/what-time-to-go-to-bed/static/js/main.faf5ab55.chunk.js.map",
     "runtime~main.js": "/what-time-to-go-to-bed/static/js/runtime~main.ceb44b33.js",
@@ -9,9 +9,9 @@
     "static/js/2.e806c720.chunk.js": "/what-time-to-go-to-bed/static/js/2.e806c720.chunk.js",
     "static/js/2.e806c720.chunk.js.map": "/what-time-to-go-to-bed/static/js/2.e806c720.chunk.js.map",
     "index.html": "/what-time-to-go-to-bed/index.html",
-    "precache-manifest.7e9d487f1b47e6ccfd6329edc7ed5dfb.js": "/what-time-to-go-to-bed/precache-manifest.7e9d487f1b47e6ccfd6329edc7ed5dfb.js",
+    "precache-manifest.682a9fba0775eb1c9e92f5a035332940.js": "/what-time-to-go-to-bed/precache-manifest.682a9fba0775eb1c9e92f5a035332940.js",
     "service-worker.js": "/what-time-to-go-to-bed/service-worker.js",
     "static/css/2.266e55a5.chunk.css.map": "/what-time-to-go-to-bed/static/css/2.266e55a5.chunk.css.map",
-    "static/css/main.f9299c2a.chunk.css.map": "/what-time-to-go-to-bed/static/css/main.f9299c2a.chunk.css.map"
+    "static/css/main.1a0104d8.chunk.css.map": "/what-time-to-go-to-bed/static/css/main.1a0104d8.chunk.css.map"
   }
 }
