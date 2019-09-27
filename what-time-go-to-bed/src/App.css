@@ -1,14 +1,14 @@
 .main-interactive-section {
-  padding: 0 60px 30px;
+  padding: 0 10% 30px;
 }
 
 .section-container {
   border-bottom: 2px solid rgba(0, 0, 0, 0.4);
-  padding: 30px 50px 30px;
+  padding: 30px 10%;
 }
 
 .section-container-last {
-  padding: 30px 50px 30px;
+  padding: 30px 10%;
 }
 
 .time-for-bed {
