@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/what-time-to-go-to-bed/precache-manifest.682a9fba0775eb1c9e92f5a035332940.js"
+  "/what-time-to-go-to-bed/precache-manifest.8bdf36a04a58c39234ea3f9f48ec2cc6.js"
 );
 
 self.addEventListener('message', (event) => {
