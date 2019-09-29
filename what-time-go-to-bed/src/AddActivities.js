@@ -11,21 +11,18 @@ export default class AddActivities extends React.Component {
       }
 
     handleNewActivityTitle = e => {
-        console.log(e.target.value)
         this.setState({
           name: e.target.value
         })
     }
     
     handleNewActivityTime = e => {
-        console.log(e.target.value)
         this.setState({
             time: e.target.value
         })
     }
     
     displayAddActivityInputClick = e => {
-        console.log('working')
         this.setState({
             showAddActivities: true
         })
@@ -38,6 +35,8 @@ export default class AddActivities extends React.Component {
     }
 
     handleAdd = () => {
+        this.inputActivityTitle.value = ""
+        this.inputActivityTime.value = ""
         const { name, time } = this.state
         this.props.onAdd(name, time)
         this.hideForm()
@@ -55,9 +54,9 @@ export default class AddActivities extends React.Component {
             return (
                 <section className="add-activity-section">
                     <div>Title</div>
-                    <input className="add-activity-first-input" onChange={this.handleNewActivityTitle}  type="text"/>
+                    <input className="add-activity-first-input" onChange={this.handleNewActivityTitle} ref={el => this.inputActivityTitle = el} type="text"/>
                     <div>Time (in minutes)</div>
-                    <input className="add-activity-last-input" onChange={this.handleNewActivityTime} type="number"/>
+                    <input className="add-activity-last-input" onChange={this.handleNewActivityTime} ref={el => this.inputActivityTime = el} type="number"/>
                     <div><Button onClick={this.handleAdd}>Add Activity</Button></div>
                 </section>
             )

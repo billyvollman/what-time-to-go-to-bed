@@ -16,7 +16,6 @@ export default class Clock extends React.Component {
       var hrs = moment().hour()
       var mins = moment().minute()
       var secs = moment().seconds()
-      console.log(`${hrs}:${mins}:${secs}`)
       var time = `${hrs}:${mins}:${secs}`
       var timeHrs = `${hrs}`
       var timeMins = `${mins}`
@@ -54,7 +53,7 @@ export default class Clock extends React.Component {
     }
 
       render() {
-        const { currentDay, currentTime, currentHrs, currentMins, currentSecs } = this.state
+        const { currentDay, currentHrs, currentMins, currentSecs } = this.state
 
         return(
             <section>
